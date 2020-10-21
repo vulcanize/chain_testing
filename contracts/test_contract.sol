@@ -11,18 +11,18 @@ contract test {
         _;
     }
 
-    uint256 public data;
+    uint256[100] data;
 
     constructor() public {
         owner = msg.sender;
-        data = 1;
+        data = [1];
     }
 
-    function Put(uint256 value) public {
-        data = value;
+    function Put(uint256 addr, uint256 value) public {
+        data[addr] = value;
     }
 
-    function close() public onlyOwner {
-        selfdestruct(owner);
+    function close() public onlyOwner { //onlyOwner is custom modifier
+        selfdestruct(owner);  // `owner` is the owners address
     }
 }
