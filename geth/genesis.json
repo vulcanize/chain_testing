@@ -9,10 +9,11 @@
         "constantinopleBlock": 6,
         "petersburgBlock": 7,
         "istanbulBlock": 8,
-        "muirGlacierBlock": 9,
+        "muirGlacierBlock": 9
     },
     "difficulty": "400",
     "gasLimit":"2100000000000",
+    "gasPrice":"0",
     "alloc": {
         "0bE478BEc54D5D28a13FA68EF6c4c033922F0CD1": {
           "privateKey": "42c5249dead1ad54f596ac55963d9cd7de23d6e438ea7df7738cdab1d3fa1e37",
@@ -53,6 +54,6 @@
         "1b2cc8FC671CEebC22DE3C9972a03E9315D493bC":{
           "privateKey": "2eef5f5b6f4a0e0e505e62d1f9b5c779276ed85f39d1d460d11c3a337bb9ee61",
           "balance": "90000000000000000000000"
-        },
+        }
     }
 }

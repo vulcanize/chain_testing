@@ -1,41 +1,33 @@
 version: "3.3"
 
 services:
-
-  waffle:
-    image: "${WAFFLE_TAG}"
-    volumes:
-    - staging:/mnt/waffle:rw
-    env_file:
-    - docker-compose.env
-
-  tx_spammer:
-    image: "${MICROSERVICES_TAG}"
-    volumes:
-    - staging:/mnt/waffle:r
-    - staging:/mnt/spammer:rw
-    env_file:
-    - docker-compose.env
-
-  postgres:
-    image: "${POSTGRES_IMAGE}"
-    volumes:
-    - postgres:/var/lib/postgresql/data
-    env_file:
-    - docker-compose.env
-    ports:
-    - 5432:5432
-
   miner:
-    image: "${MINER_IMAGE}"
+    build:
+      context: ./geth
+      dockerfile: Dockerfile
+      args:
+        GETH_REPO_URL: {GETH_REPO_URL}
+        GETH_BRANCH_NAME: {GETH_BRANCH_NAME}
     volumes:
-    - miner:/mnt/data:rw
+    - chain_testing_miner:/mnt/data:rw
+    - ./geth/genesis.json:/mnt/data/genesis.json
     env_file:
-    - docker-compose.env
+    - ./docker-compose.env
     ports:
     - 8545:8545
 
+  tx_spammer:
+    depends_on:
+      - miner
+    image: {SPAMMER_IMAGE_URL}
+    volumes:
+    - chain_testing_spammer:/app:rw
+    - ./spammer/config.toml:/app/environments/example.toml
+    - ./spammer/test_abi.json:/app/abis/test_abi.json
+    - ./keys:/app/keys
+    env_file:
+    - ./docker-compose.env
+
 volumes:
-  staging:
-  miner:
-  postgres:
+  chain_testing_spammer:
+  chain_testing_miner:
